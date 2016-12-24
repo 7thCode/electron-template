@@ -11,12 +11,9 @@ html(lang='ja')
         link(rel='stylesheet', type='text/css', href='../stylesheets/style.css')
     body
         div(ng-cloak='', ng-app='Application',ng-controller='Controller as ctrl')
-            .row
-                .col-xs-12
-                    div(ui-ace="{useWrapMode : true,mode: 'html',onLoad: aceLoaded,onChange: aceChanged}")
-            .row.message
-                .col-xs-4
-                    span {{theme}} / {{mode}} / {{source}}
+            div(ui-ace="{useWrapMode : true,mode: 'html',onLoad: aceLoaded,onChange: aceChanged}")
+            div.message
+                span {{theme}} / {{mode}} / {{source}}
 
     script(type='text/javascript', src='../bower_components/angular/angular.min.js')
     script(type="text/javascript", src='../bower_components/ace-builds/src-min/ace.js')
