@@ -1,11 +1,11 @@
 {
-  "name": "electron_base",
+  "name": "electron_template",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "electron index.js",
-    "package": "electron-packager . electron_base --platform=darwin,win32 --arch=x64 --version=1.4.13"
+    "package": "electron-packager . electron_template --platform=darwin,win32 --arch=x64 --version=1.4.13"
   },
   "keywords": [],
   "author": "",
