@@ -1,0 +1,19 @@
+{
+  "name": "electron_base",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron index.js",
+    "package": "electron-packager . electron_base --platform=darwin,win32 --arch=x64 --version=1.4.13"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.79.0"
+  },
+  "devDependencies": {
+    "electron": "^1.4.13"
+  }
+}
