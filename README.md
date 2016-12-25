@@ -19,3 +19,18 @@
            └── main.ts
            
            
+##実行
+    
+    sudo npm install
+    
+    
+    electron .
+    
+    
+##パッケージング
+    
+     electron -v   
+     v1.4.13
+            
+     electron-packager . APP_NAME --platform=darwin --arch=x64 --version=1.4.13 --icon=app_name.icns
+        
