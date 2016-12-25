@@ -201,23 +201,29 @@ function openWindow() {
 }
 
 function onFileOpenClicked():void {
+    main.open((error, data) => {
+        if (!error) {
+            menu_open.enabled = false;
+            menu_save.enabled = true;
+            menu_save_as.enabled = true;
+            menu_close.enabled = true;
 
-    menu_open.enabled = false;
-    menu_save.enabled = true;
-    menu_save_as.enabled = true;
-    menu_close.enabled = true;
-
-    mainWindow.webContents.send('open', main.open());
+            mainWindow.webContents.send('open',data);
+        }
+    });
 }
 
 function onFileCloseClicked():void {
+    main.close((error, data) => {
+        if (!error) {
+            menu_open.enabled = true;
+            menu_save.enabled = false;
+            menu_save_as.enabled = false;
+            menu_close.enabled = false;
 
-    menu_open.enabled = true;
-    menu_save.enabled = false;
-    menu_save_as.enabled = false;
-    menu_close.enabled = false;
-
-    mainWindow.webContents.send('close', main.close());
+            mainWindow.webContents.send('close', data);
+        }
+    })
 }
 
 function onFileSaveClicked():void { //ping-pong pattern

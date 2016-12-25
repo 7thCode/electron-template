@@ -26,22 +26,24 @@ export namespace MainModule {
             this.current_file = '.';
         }
 
-        public open(): string {
+        public open(callback:(error, data) => void): void {
             let result:string = "";
             let options = {
                 title: 'タイトル',
                 properties: ['openFile'],
                 filters: [
-                    {name: 'テキストファイル', extensions: ['txt']},
-                    {name: 'JSファイル', extensions: ['js']},
-                    {name: 'HTMLファイル', extensions: ['html']}
+                    {name: 'text file', extensions: ['txt']},
+                    {name: 'JS file', extensions: ['js']},
+                    {name: 'HTML file', extensions: ['html']}
                 ]
             };
             let filenames = dialog.showOpenDialog(browserWindow, options);
-            if (filenames.length > 0) {
-                result = this.open_as(filenames[0]);
+            if (filenames) {
+                if (filenames.length > 0) {
+                    result = this.open_as(filenames[0]);
+                    callback(null,result);
+                }
             }
-            return result;
         }
 
         public open_as(filename: string): string {
@@ -49,9 +51,9 @@ export namespace MainModule {
             return this.file.readfileSync(this.current_file);
         }
 
-        public close(): string {
+        public close(callback:(error, data) => void): void {
             this.current_file = '.';
-            return '';
+            callback(null,"");
         }
 
         public save(data: string): boolean {
@@ -66,8 +68,8 @@ export namespace MainModule {
                 title: '保存',
                 defaultPath: this.current_file,
                 filters: [
-                    {name: 'テキストファイル', extensions: ['txt']},
-                    {name: 'JSONファイル', extensions: ['json']}
+                    {name: 'text file', extensions: ['txt']},
+                    {name: 'js file', extensions: ['js']}
                 ]
             };
             let filename = dialog.showSaveDialog(browserWindow, options);
