@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "electron index.js",
-    "package": "electron-packager . electron_template --platform=darwin,win32 --arch=x64 --version=1.4.13"
+    "package": "electron-packager . electron_template --platform=darwin,win32 --arch=x64 --version=1.4.13 --icon=app_name.icns"
   },
   "keywords": [],
   "author": "",
