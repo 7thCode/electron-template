@@ -10,38 +10,58 @@
 
 const electron = require('electron');
 const {dialog} = require('electron');
-const BrowserWindow = electron.BrowserWindow;
+const browserWindow = electron.BrowserWindow;
 
-let count = 0;
+let File = require('./common/utility.js').File;
+
 export namespace MainModule {
 
     export class Main {
 
+        private  file:any;
+        private current_file:string;
+
         constructor() {
-
+            this.file = new File();
+            this.current_file = '.';
         }
 
-        public Add(v1:number, v2:number):number {
-            return v1 + v2;
-        }
+        public open(): string {
 
-        public Minus(v1:number, v2:number):number {
-            return v1 - v2;
-        }
-
-        public RGBA(): string {
-            return "";
-        }
-
-        public open():void {
             let options = {
-                title: 'Message from callback',
-                type: 'info',
-                buttons: ['OK', 'Cancel'],
-                message: 'Callback passs',
-                detail: "ssss"
+                title: 'タイトル',
+                properties: ['openFile'],
+                filters: [
+                    {name: 'テキストファイル', extensions: ['txt']},
+                    {name: 'JSファイル', extensions: ['js']},
+                    {name: 'HTMLファイル', extensions: ['html']}
+                ]
             };
-            dialog.showOpenDialog(BrowserWindow, options);
+
+            let filenames = dialog.showOpenDialog(browserWindow, options);
+            this.current_file = filenames[0];
+            return this.file.readfileSync(this.current_file);
+        }
+
+        public save(data:string): boolean {
+            if (this.current_file) {
+                return this.file.writefileSync(this.current_file, data);
+            }
+        }
+
+        public save_as(data:string): boolean {
+
+            let options = {
+                title: '保存',
+                defaultPath: this.current_file,
+                filters: [
+                    {name: 'テキストファイル', extensions: ['txt']},
+                    {name: 'JSONファイル', extensions: ['json']}
+                ]
+            };
+
+            let filename =  dialog.showSaveDialog(browserWindow, options);
+            return this.file.writefileSync(filename, data);
         }
     }
 }

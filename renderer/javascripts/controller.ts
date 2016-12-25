@@ -38,6 +38,8 @@ namespace ControllerModule {
                     enableLiveAutocompletion: true
                 });
 
+                editor.getSession().setUndoManager(new ace.UndoManager());
+
             };
 
             $scope.aceChanged = function (e) {
@@ -45,6 +47,7 @@ namespace ControllerModule {
             };
 
             let ipc = require('electron').ipcRenderer;
+
             ipc.on('theme', (event, msg) => {
                 $scope.$evalAsync(// $apply
                     function ($scope) {
@@ -61,23 +64,31 @@ namespace ControllerModule {
                 editor.getSession().setMode("ace/mode/" + msg);
             });
 
-            ipc.on('open', (event, msg) => {
-                let request = remote.require('request');
-                let url = msg;
-
-                $scope.$evalAsync(// $apply
-                    function ($scope) {
-                        $scope.source = msg;
-                    });
-
-                request(url, function (error, response, body) {
-                    if (!error && response.statusCode == 200) {
-                        editor.setValue(body);
-                    } else {
-
-                    }
-                });
+            ipc.on('open', (event, value) => {
+       //         let request = remote.require('request');
+       //         let url = msg;
+                editor.setValue(value);
+        //        request(url, function (error, response, body) {
+        //            if (!error && response.statusCode == 200) {
+        //                editor.setValue(body);
+        //            } else {
+//
+ //                   }
+ //               });
             });
+
+            ipc.on('save', (event, value) => {
+                ipc.send('value', editor.getValue());
+            });
+
+            ipc.on('undo', (event, msg) => {
+                editor.undo();
+            });
+
+            ipc.on('redo', (event, msg) => {
+                editor.redo();
+            });
+
         }]);
 
 

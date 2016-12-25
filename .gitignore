@@ -6,3 +6,7 @@ memo.md
 *.map
 
 *.js
+
+renderer/bower_components/
+renderer/stylesheets/style.css
+typings/

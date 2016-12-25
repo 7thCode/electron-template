@@ -11,6 +11,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "graceful-fs": "^4.1.11",
     "request": "^2.79.0"
   },
   "devDependencies": {
