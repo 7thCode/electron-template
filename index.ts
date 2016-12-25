@@ -16,7 +16,6 @@ let mainWindow = null;
 let mainModule = require('./system/main.js');
 
 let ipc = electron.ipcMain;
-
 let template = [
     {
         label: "Application",
