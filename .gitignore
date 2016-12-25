@@ -9,6 +9,7 @@ memo.md
 
 *.js
 
-renderer/bower_components/
+client/bower_components/
 typings/
 app_name.iconset/
+views/

@@ -195,7 +195,7 @@ function openWindow() {
             nodeIntegration: true
         }
     });
-    mainWindow.loadURL("file://" + __dirname + "/renderer/views/index.html");
+    mainWindow.loadURL("file://" + __dirname + "/client/index.html");
     mainWindow.on('closed', function () {
         mainWindow = null;
     });
