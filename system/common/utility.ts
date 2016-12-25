@@ -9,6 +9,7 @@
 "use strict";
 
 export namespace Utility {
+
     const fs: any = require('graceful-fs');
 
     export class File {

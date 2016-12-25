@@ -33,7 +33,9 @@ let template = [
             {type: "separator"},
             {label: 'Save', accelerator: "Command+S", click: () => onFileSaveClicked()},
             {type: "separator"},
-            {label: 'SaveAs...',  click: () => onFileSaveAsClicked()}
+            {label: 'SaveAs...',  click: () => onFileSaveAsClicked()},
+            {type: "separator"},
+            {label: 'Close',  click: () => onFileCloseClicked()}
         ]
     },
     {
@@ -60,8 +62,8 @@ let template = [
   //                  {label: 'clouds', click: () => onThemeClicked('clouds')},
   //                  {label: 'clouds_midnight', click: () => onThemeClicked('clouds_midnight')},
                     {label: 'cobalt', click: () => onThemeClicked('cobalt')},
-                    {label: 'crimson_editor', click: () => onThemeClicked('crimson_editor')},
-                    {label: 'dawn', click: () => onThemeClicked('dawn')},
+     //               {label: 'crimson_editor', click: () => onThemeClicked('crimson_editor')},
+       //             {label: 'dawn', click: () => onThemeClicked('dawn')},
                     {label: 'dreamweaver', click: () => onThemeClicked('dreamweaver')},
                     {label: 'eclipse', click: () => onThemeClicked('eclipse')},
                     {label: 'github', click: () => onThemeClicked('github')},
@@ -79,13 +81,13 @@ let template = [
     //                {label: 'solarized_light', click: () => onThemeClicked('solarized_light')},
      //               {label: 'sqlserver', click: () => onThemeClicked('sqlserver')},
                     {label: 'terminal', click: () => onThemeClicked('terminal')},
-                    {label: 'textmate', click: () => onThemeClicked('textmate')},
+      //              {label: 'textmate', click: () => onThemeClicked('textmate')},
     //                {label: 'tomorrow', click: () => onThemeClicked('tomorrow')},
              //       {label: 'tomorrow_night', click: () => onThemeClicked('tomorrow_night')},
              //       {label: 'tomorrow_night_blue', click: () => onThemeClicked('tomorrow_night_blue')},
              //       {label: 'tomorrow_night_bright', click: () => onThemeClicked('tomorrow_night_bright')},
              //       {label: 'tomorrow_night_eighties', click: () => onThemeClicked('tomorrow_night_eighties')},
-                    {label: 'twilight', click: () => onThemeClicked('twilight')},
+           //         {label: 'twilight', click: () => onThemeClicked('twilight')},
    //                 {label: 'vibrant_ink', click: () => onThemeClicked('vibrant_ink')},
                     {label: 'xcode', click: () => onThemeClicked('xcode')}
                 ]
@@ -104,13 +106,13 @@ let template = [
     //                {label: 'curly', click: () => onModeClicked('curly')},
                     {label: 'dart', click: () => onModeClicked('dart')},
   //                  {label: 'diff', click: () => onModeClicked('diff')},
-                    {label: 'django', click: () => onModeClicked('django')},
+    //                {label: 'django', click: () => onModeClicked('django')},
     //                {label: 'dot', click: () => onModeClicked('dot')},
     //                {label: 'glsl', click: () => onModeClicked('glsl')},
                     {label: 'golang', click: () => onModeClicked('golang')},
   //                  {label: 'groovy', click: () => onModeClicked('groovy')},
                     {label: 'haml', click: () => onModeClicked('haml')},
-                    {label: 'haxe', click: () => onModeClicked('haxe')},
+   //                 {label: 'haxe', click: () => onModeClicked('haxe')},
                     {label: 'html', click: () => onModeClicked('html')},
                     {label: 'jade', click: () => onModeClicked('jade')},
                     {label: 'java', click: () => onModeClicked('java')},
@@ -124,9 +126,9 @@ let template = [
                     {label: 'lisp', click: () => onModeClicked('lisp')},
 //                    {label: 'livescript', click: () => onModeClicked('livescript')},
                     {label: 'lua', click: () => onModeClicked('lua')},
-                    {label: 'luapage', click: () => onModeClicked('luapage')},
+ //                   {label: 'luapage', click: () => onModeClicked('luapage')},
   //                  {label: 'lucene', click: () => onModeClicked('lucene')},
-                    {label: 'makefile', click: () => onModeClicked('makefile')},
+  //                  {label: 'makefile', click: () => onModeClicked('makefile')},
                     {label: 'markdown', click: () => onModeClicked('markdown')},
                     {label: 'objectivec', click: () => onModeClicked('objectivec')},
   //                  {label: 'ocaml', click: () => onModeClicked('ocaml')},
@@ -142,7 +144,7 @@ let template = [
      //               {label: 'scad', click: () => onModeClicked('scad')},
      //               {label: 'scala', click: () => onModeClicked('scala')},
                     {label: 'scheme', click: () => onModeClicked('scheme')},
-                    {label: 'scss', click: () => onModeClicked('scss')},
+  //                  {label: 'scss', click: () => onModeClicked('scss')},
                     {label: 'sh', click: () => onModeClicked('sh')},
     //                {label: 'sql', click: () => onModeClicked('sql')},
     //                {label: 'stylus', click: () => onModeClicked('stylus')},
@@ -174,6 +176,14 @@ let template = [
 ];
 
 let menu = Menu.buildFromTemplate(template);
+let menu_open = menu.items[1].submenu.items[0];
+let menu_save = menu.items[1].submenu.items[2];
+let menu_save_as = menu.items[1].submenu.items[4];
+let menu_close = menu.items[1].submenu.items[6];
+menu_open.enabled = true;
+menu_save.enabled = false;
+menu_save_as.enabled = false;
+menu_close.enabled = false;
 
 let main = new mainModule.Main();
 
@@ -192,21 +202,41 @@ function openWindow() {
 }
 
 function onFileOpenClicked():void {
+
+    menu_open.enabled = false;
+    menu_save.enabled = true;
+    menu_save_as.enabled = true;
+    menu_close.enabled = true;
+
     mainWindow.webContents.send('open', main.open());
 }
 
-function onFileSaveClicked():void {
-    mainWindow.webContents.send('save', '');
+function onFileCloseClicked():void {
+
+    menu_open.enabled = true;
+    menu_save.enabled = false;
+    menu_save_as.enabled = false;
+    menu_close.enabled = false;
+
+    mainWindow.webContents.send('close', main.close());
+}
+
+function onFileSaveClicked():void { //ping-pong pattern
+
     ipc.on('value', (event:any, data:string) => {
         main.save(data);
     });
+
+    mainWindow.webContents.send('save', '');
 }
 
-function onFileSaveAsClicked():void {
-    mainWindow.webContents.send('save', '');
+function onFileSaveAsClicked():void {  //ping-pong pattern
+
     ipc.on('value', (event:any, data:string) => {
         main.save_as(data);
     });
+
+    mainWindow.webContents.send('save', '');
 }
 
 function onUndoClicked():void {
@@ -226,9 +256,18 @@ function onModeClicked(mode: string):void {
 }
 
 
+ipc.on('status', (event:any, data:string):void => { //ping-pong
+    mainWindow.webContents.send('status', {filename:main.current_file});
+});
 
+ipc.on('open', (event:any, filename:string):void => { //ping-pong
+    menu_open.enabled = false;
+    menu_save.enabled = true;
+    menu_save_as.enabled = true;
+    menu_close.enabled = true;
 
-
+    mainWindow.webContents.send('open', main.open_as(filename));
+});
 
 app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') {

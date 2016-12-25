@@ -18,8 +18,8 @@ export namespace MainModule {
 
     export class Main {
 
-        private  file:any;
-        private current_file:string;
+        private file: any;
+        public current_file: string;
 
         constructor() {
             this.file = new File();
@@ -27,7 +27,7 @@ export namespace MainModule {
         }
 
         public open(): string {
-
+            let result:string = "";
             let options = {
                 title: 'タイトル',
                 properties: ['openFile'],
@@ -37,20 +37,31 @@ export namespace MainModule {
                     {name: 'HTMLファイル', extensions: ['html']}
                 ]
             };
-
             let filenames = dialog.showOpenDialog(browserWindow, options);
-            this.current_file = filenames[0];
+            if (filenames.length > 0) {
+                result = this.open_as(filenames[0]);
+            }
+            return result;
+        }
+
+        public open_as(filename: string): string {
+            this.current_file = filename;
             return this.file.readfileSync(this.current_file);
         }
 
-        public save(data:string): boolean {
+        public close(): string {
+            this.current_file = '.';
+            return '';
+        }
+
+        public save(data: string): boolean {
             if (this.current_file) {
                 return this.file.writefileSync(this.current_file, data);
             }
         }
 
-        public save_as(data:string): boolean {
-
+        public save_as(data: string): boolean {
+            let result: boolean = false;
             let options = {
                 title: '保存',
                 defaultPath: this.current_file,
@@ -59,9 +70,11 @@ export namespace MainModule {
                     {name: 'JSONファイル', extensions: ['json']}
                 ]
             };
-
-            let filename =  dialog.showSaveDialog(browserWindow, options);
-            return this.file.writefileSync(filename, data);
+            let filename = dialog.showSaveDialog(browserWindow, options);
+            if (filename) {
+                result = this.file.writefileSync(filename, data);
+            }
+            return result;
         }
     }
 }
